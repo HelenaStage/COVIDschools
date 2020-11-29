@@ -17,7 +17,7 @@ ABC posteriors are generated in the notebooks `regional_ABC_fitting.ipynb` (for 
 ## Negative Binomial Latent Gaussian Process Regression
 
 
-The GP model is fitted using notebook `CIM_NegBinom_GP.ipynb`. This notebook relies on the previously generated files, and uses the python package PyMC3. The region/nation being analysed should be stated in call three, using the variable `region`. For German states use, e.g. `DE_BE` for Berlin or `DE_NW` for North Rhine-Westphalia, and for nations use e.g. `NO` for Norway or `DK` for Denmark. The metric shoul dbe either `new_cases` for case data (used for German states and Sweden) or `new_hosps` (used for Norway and Denmark). Running this notebook for each state/nation will produce `.dictionary` files detailing the NegBinom GP model output, along with an image showing the modelled unintervened trajectory. 
+The GP model is fitted using notebook `CIM_NegBinom_GP.ipynb`. This notebook relies on the previously generated files, and uses the python package PyMC3. The region/nation being analysed should be stated in call three, using the variable `region`. For German states use, e.g. `DE_BE` for Berlin or `DE_NW` for North Rhine-Westphalia, and for nations use e.g. `NO` for Norway or `DK` for Denmark. The metric should be either `new_cases` for case data (used for German states and Sweden) or `new_hosps` (used for Norway and Denmark). Running this notebook for each state/nation will produce `.dictionary` files detailing the NegBinom GP model output, along with an image showing the modelled unintervened trajectory. 
 
 ### Package dependancies for school closure analysis:
 - Numpy
