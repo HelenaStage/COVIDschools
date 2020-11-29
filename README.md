@@ -1,7 +1,31 @@
-# COVIDschools
+﻿# COVIDschools
 Data and code required to reproduce findings pertaining to COVID-19 related school interventions
 
 --- School closure ---
+
+
+
+Analysis of school closure is a two step process. First, we use approximate Bayesian computation to produce 1000 posterior parameterisations of an SEIR compartmental epidemic model, before using a sample of these posteriors as covariates in a Negative Binomial latent Gaussian Process machine learning model. The functions used to construct and fit the SEIR model are stored in `mechanisitic_model.py`, and `pygom_abc.py`, and called upon by the notebooks `regional_ABC_fitting.ipynb` and `national_ABC_fitting.ipynb`. The model construciton and fitting process both rely on the PyGOM package for python. Outputs of the ABC fitting process have been included in this repository as some users have had difficulty using the PyGOM package. Users are also encouraged to use the provided case/hospitalisation data to fit ABC posteriors using their own methods.
+
+
+## Generating ABC covariates
+
+
+ABC posteriors are generated in the notebooks `regional_ABC_fitting.ipynb` (for german states) and `national_ABC_fitting.ipynb` (for Denmark, Sweden and Norway). Both these notebook require PyGOM to be installed to run properly. The notebooks should be run once for each naiton/state being investigated. Running these notebooks will produce files used as inputs to the GP model named `GP_input_data\{metric}_{region}.csv` (used to store observed data), and `GP_input_data\posteriors_{metric}_{region}.csv` (used to store the ABC posteriors), where `{metric}` refers to the value being observed (e.g. `new_cases` or `new_hosps`) and `region` refers to the abbreviated nation/state. For example running the notebok for confirmed cases in Berlin will produce files called `new_cases_DE_BE.csv` and `posteriors_new_cases_DE_BE.csv`. All intermediate files created in this process have been included in this repository. 
+
+
+## Negative Binomial Latent Gaussian Process Regression
+
+
+The GP model is fitted using notebook `CIM_NegBinom_GP.ipynb`. This notebook relies on the previously generated files, and uses the python package PyMC3. The region/nation being analysed should be stated in call three, using the variable `region`. For German states use, e.g. `DE_BE` for Berlin or `DE_NW` for North Rhine-Westphalia, and for nations use e.g. `NO` for Norway or `DK` for Denmark. The metric shoul dbe either `new_cases` for case data (used for German states and Sweden) or `new_hosps` (used for Norway and Denmark). Running this notebook for each state/nation will produce `.dictionary` files detailing the NegBinom GP model output, along with an image showing the modelled unintervened trajectory. 
+
+### Package dependancies for school closure analysis:
+- Numpy
+- Pandas
+- Matplotlib
+- PyGOM
+- PyMC3
+For installation instructions for PyGOM please see https://github.com/PublicHealthEngland/pygom. 
 
 The following file names include the data for school closure (including date accessed as numbers may since have changed):
 - Denmark (accessed 20/06/2020): DK_data.csv

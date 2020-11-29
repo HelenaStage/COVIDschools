@@ -116,10 +116,11 @@ def data_model(model, data, fit_to, times, weights, k, N0):
     returns:
         model: abc_model object, not yet fitted.
     """
-    fit_to_dict = {'cases':'Id_cum', 'hospitalisations':'Id_cum', 'ICU':'Id_cum', 'tot_hosps':'Id', 'new_cases':'Id'}
+    print(type(data[0]))
+    fit_to_dict = {'cases':'Id_cum', 'hospitalisations':'Id_cum', 'ICU':'Id_cum', 'new_hosps':'Id', 'new_cases':'Id'}
     
     fit_state = fit_to_dict[fit_to]
-     
+
     E0_0 = 0
     E1_0 = 0
     E2_0 = 0
@@ -133,9 +134,10 @@ def data_model(model, data, fit_to, times, weights, k, N0):
 
     x_0 = [float(x) for x in x_0]
     initial_guess = [1.3, 7, 0.1, 14, 14]
-    boxBounds = [(0,4), (0,14), (0,1), (0,21),(0,21),
-                 (Id_cum_0/4,Id_cum_0),(Id_cum_0/4,Id_cum_0),(Id_cum_0/4,Id_cum_0),
-                 (Id_cum_0/4,Id_cum_0),(Id_cum_0/4,Id_cum_0), (Id_cum_0/4,Id_cum_0)]
+    boxBounds = [(0,3), (0,5), (0,1), (0,21),(0,21),
+                 (Id_cum_0/4,Id_cum_0*4),(Id_cum_0/4,Id_cum_0*4),(Id_cum_0/4,Id_cum_0*4),
+                 (Id_cum_0/4,Id_cum_0*4),(Id_cum_0/4,Id_cum_0*4), (Id_cum_0/4,Id_cum_0)]
+    print('BOX BOUNDS: {}'.format(boxBounds))
     # Need to seperate (x0, t0, w0, k0) from (xi, ti, wi, ki) for i!=0
     t_0 = times[0]
     t_i = times[1:]
@@ -150,9 +152,10 @@ def data_model(model, data, fit_to, times, weights, k, N0):
     else:
         k_i = None
     
-    if fit_to == 'tot_hosps':
+    if fit_to == 'new_hosps':
         
         try:
+            print('Using NegBinom loss')
             modelobj = NegBinomLoss(initial_guess, 
                                model, 
                                x_0, 
@@ -160,10 +163,12 @@ def data_model(model, data, fit_to, times, weights, k, N0):
                                t_i, 
                                x_i, 
                                [fit_state],
+                               w_i, 
                                k=k_i,
                                target_param=['beta','gamma', 'kappa', 'delta1', 'delta2'], 
-                               target_state=['E0', 'E1','E2','I','I_u', 'I_d'])
+                               target_state=['E0', 'E1','E2','I','Iu', 'Id'])
         except NameError:
+            print('Using square loss')
             # Use SquareLoss if Pygom distribution is not updated with NegBinom (dev distribution is as of 20/06)
             modelobj = SquareLoss(initial_guess, 
                                   model, 
@@ -223,7 +228,7 @@ def run_ABC_model(abc_model, ode_model, fit_end_point, sim_end_point, N0, genera
         abc_model: fitted to data
         prediciton = [median, 0.05, 0.95]
         """
-    abc_model.get_posterior_sample(N=150,
+    abc_model.get_posterior_sample(N=1000,
                                tol=np.inf, 
                                G=generations, 
                                q=0.5, 
