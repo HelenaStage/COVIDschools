@@ -1,4 +1,7 @@
 library(mgcv)
+library(ggplot2)
+library(MASS)
+library(dplyr)
 
 DataFile <- function(country){
   if(country=="DK"){filename <- "denmark_data.csv"}
