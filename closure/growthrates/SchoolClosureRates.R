@@ -1,6 +1,7 @@
 library(ggplot2)
 library(MASS)
 library(dplyr)
+library(mgcv)
 
 DataFile <- function(country){
   if(country=="BY"){filename <- "BY.csv"}
@@ -232,3 +233,4 @@ CountryCode <- "BW"
 InputData<-data.frame(read.csv(DataFile(CountryCode)))
 #Call functions which determines the growth rates...toggle if want to print doubling times instead
 DoWRate(InputData,CountryCode,FE="WE",splinemeth = 'tp')
+
