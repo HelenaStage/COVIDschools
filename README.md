@@ -51,19 +51,30 @@ The model allows for the Fixed Effect `FE` to vary between `None`, `WE`, and `WD
 - dplyr
 - ggplot2
 - MASS
+- mgcv
 
 --- School reopening ---
 
-The following file names include the data for school reopening (including date accessed as numbers may since have changed):
-- Denmark (hospital admissions, accessed 13/06/2020): denmark_data.csv
-- Denmark (confirmed cases, accessed 13/06/2020): denmark_cases.csv
-- Norway (accessed 13/06/2020): norway_data.csv
-- Germany (hospital admissions, accessed 09/07/2020): germany_data_hosp.csv
-- Germany (confirmed cases among staff and students, accessed 09/07/2020): germany_data_raw.csv
+## Calculating the growth rates
+The script `InstGrowthRates.R` will produce the instantaneous growth rates for each data set over the course of the reopening timelines. A `CountryCode = (DK, DKcase, NO, DE, DEstaff, or DEstudents)` can be used to switch between different countries. This will automatically load the relevant filename for analysis. 
+The model allows for the Fixed Effect `FE` to vary between `None`, `WE`, and `WD`. This determines whether the GAM applied in the analysis should have no additional information, allow for changes over the weekend, and allow for changes for each day of the week, respectively. We elected to use the `WD` fixed effect.
 
-The script InstGrowthRates.r will produce the instantaneous growth rates for each data stream of interest, and this should be run first. For each data set of interest, the following Python scripts will overlay the instantaneous growth rates with the dates of key interventions:
-- Danish daily hospital admissions: denmark.py
-- Danish daily confirmed cases: denmark-cases.py
-- Norwegian daily confirmed cases: norway.py
-- German daily hospital admissions: germany_hosp.py
-- German daily confirmed cases among staff and students: germany.py
+### Package dependencies
+- dplyr
+- ggplot2
+- MASS
+- mgcv
+
+The following file names include the data for school reopening (numbers may since have changed):
+- Denmark (hospital admissions): denmark_data.csv
+- Denmark (confirmed cases): denmark_cases.csv
+- Norway (confirmed cases): norway_data.csv
+- Germany (hospital admissions): germany_data_hosp.csv
+- Germany (confirmed cases among staff and students): germany_data_raw.csv
+
+The script `InstGrowthRates.R` should be run first. For each data set of interest, the following Python scripts will overlay the instantaneous growth rates with the dates of key interventions:
+- Danish daily hospital admissions: `denmark.py`
+- Danish daily confirmed cases: `denmark-cases.py`
+- Norwegian daily confirmed cases: `norway.py`
+- German daily hospital admissions: `germany_hosp.py`
+- German daily confirmed cases among staff and students: `germany.py`
