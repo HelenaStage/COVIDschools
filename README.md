@@ -28,13 +28,13 @@ The GP model is fitted using notebook `CIM_NegBinom_GP.ipynb`. This notebook rel
 
 For installation instructions for PyGOM please see https://github.com/PublicHealthEngland/pygom. 
 
-The following file names include the data for school closure (including date accessed as numbers may since have changed):
-- Denmark (accessed 20/06/2020): DK_data.csv
-- Norway (accessed 02/06/2020): NO_data.csv
-- Sweden (accessed 05/06/2020): SE_data.csv
+The following file names include the data for school closure (numbers may since have changed):
+- Denmark: DK_data.csv
+- Norway: NO_data.csv
+- Sweden: SE_data.csv
 - Germany: DE_reg_data_new.csv
 
-Data from studied German states were obtained daily (with a day's delay). These files also include the projected trajectories resulting from the Gaussian Process forecast:
+These files include the projected trajectories resulting from the Gaussian Process regression model:
 - Baden-Württemberg: Baden_results.csv
 - Bavaria: Bavaria_results.csv
 - Berlin: Berlin_results.csv
@@ -43,7 +43,14 @@ Data from studied German states were obtained daily (with a day's delay). These 
 - North Rhine-Westphalia: NRW_results.csv
 - Rhineland-Palatinate: Rhineland_results.csv
 
-The script ConstGrowthRates.r will produce the pre- and post-response growth rates for each state.
+## Calculating the growth rates
+The script `SchoolClosureRates.R` will produce the pre- and post-response growth rates for each state. A `CountryCode = (BW, BY, BE, HE, NI, NW, RP)` can be used to switch between different states, e.g. `BE` for Berlin. This will automatically load the filename `CountryCode.csv` which contains both the observed and modelled data for analysis. 
+The model allows for the Fixed Effect `FE` to vary between `None`, `WE`, and `WD`. This determines whether the GAM applied in the analysis should have no additional information, allow for changes over the weekend, and allow for changes for each day of the week, respectively. We elected to use the `WE` fixed effect.
+
+### Package dependencies
+- dplyr
+- ggplot2
+- MASS
 
 --- School reopening ---
 
