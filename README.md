@@ -25,13 +25,10 @@ The GP model is fitted using notebook `NegBinom_GP.ipynb`. This notebook relies 
 - Matplotlib
 - PyGOM
 - PyMC3
-<<<<<<< HEAD
 - tqdm
 - pickle
 - Scipy
-=======
 
->>>>>>> 3caa73527eca33ca014a9e8085cad53ee7ec37dc
 For installation instructions for PyGOM please see https://github.com/PublicHealthEngland/pygom. 
 
 The following file names include the data for school closure (numbers may since have changed):
